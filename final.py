@@ -45,27 +45,16 @@ def get_details():
 					s+=int(j[1])
 			p.append(s)
 			Output.append(tuple(p))
-		with open("results.txt", "w") as fr:
-			fr.write("##############################################################################################\n")
-			fr.write("##------------------------------call duration in hr:min:sec-------------------------------##\n")
-			fr.write("##############################################################################################\n")
-			# print(dict(Output))
+		with open("results.csv", "w") as fr:
 			dict_output = dict(Output)
 			sorted_dict_output = sorted(dict_output.items(), key=lambda x:x[1], reverse=True)
 			converted_dict_output = dict(sorted_dict_output)
-			fr.write("PHONE_NUMBER  CALL_DURATION\n")
-			for (key, value) in converted_dict_output.items():
-				value = str(datetime.timedelta(seconds = value))
-				fr.write(f"{key}   ->   {value}\n")
-
-			fr.write("######################################################################################################\n")
-			fr.write("##----------------------------------Frequently called phone list-------------------------------------##\n")
-			fr.write("######################################################################################################\n")
-			# sort the phone numbers based on their frequencies
+			fr.write("phone_number,call_duration,no_of_times_called\n")
 			freq = collections.Counter(phone_number_list)
 			dic_freq_items = dict(freq.items())
 			sorted_freq_items = sorted(dic_freq_items.items(), key=lambda x:x[1], reverse=True)
 			dict_sorted_freq_items = dict(sorted_freq_items)
-			fr.write("PHONE_NUMBER  NO_OF_TIMES_CALLED\n")
-			for (key, value) in dict_sorted_freq_items.items():
-				fr.write(f"{key}   ->   {value}\n")
+			for (key, value) in converted_dict_output.items():
+				if key in dict_sorted_freq_items.keys():
+					freq_value = str(datetime.timedelta(seconds = value))
+					fr.write(f"{key},{freq_value},{dict_sorted_freq_items[key]}\n")

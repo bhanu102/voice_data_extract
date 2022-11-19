@@ -5,7 +5,7 @@ import linecache
 import re
 import final
 
-doc = fitz.open("file2.pdf")
+doc = fitz.open("file1.pdf")
 
 
 len = doc.page_count
